@@ -1,8 +1,16 @@
 import Link from "next/link"
 import { prisma } from "@/lib/prisma"
 
+type HomeBlogPreviewItem = {
+  id: number
+  title: string
+  slug: string
+  excerpt: string
+  createdAt: Date
+}
+
 export async function HomeBlogPreview() {
-  const blogs = await prisma.blog.findMany({
+  const bloglar: HomeBlogPreviewItem[] = await prisma.blog.findMany({
     where: {
       isPublished: true,
     },
@@ -34,21 +42,24 @@ export async function HomeBlogPreview() {
 
           <Link
             href="/blog"
-            className="text-sm font-medium text-[#b69369]"
+            className="text-sm font-medium text-[#b69369] transition hover:opacity-80"
           >
-            Tüm yazıları görüntüle
+            Tüm Blogları Gör
           </Link>
         </div>
 
-        {blogs.length === 0 ? (
-          <div className="rounded-[32px] border border-[#eadfce] bg-[#faf6f0] p-10 text-center">
-            <p className="text-sm leading-7 text-[#6f675f]">
-              Henüz yayınlanmış blog yazısı bulunmuyor.
+        {bloglar.length === 0 ? (
+          <div className="rounded-[32px] border border-[#eadfce] bg-[#fcfaf7] p-10 text-center">
+            <h3 className="text-xl font-semibold text-[#1a1a1a]">
+              Henüz yayınlanmış blog yazısı bulunmuyor
+            </h3>
+            <p className="mt-3 text-sm leading-7 text-[#6f675f]">
+              Yeni blog yazıları eklendiğinde burada görünecek.
             </p>
           </div>
         ) : (
           <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {blogs.map((blog) => (
+            {bloglar.map((blog: HomeBlogPreviewItem) => (
               <article
                 key={blog.id}
                 className="rounded-[28px] border border-[#eee4d8] bg-[#faf6f0] p-7 transition hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(108,91,67,0.10)]"
