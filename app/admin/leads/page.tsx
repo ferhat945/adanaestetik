@@ -83,40 +83,42 @@ export default async function AdminLeadsPage() {
               </thead>
 
               <tbody>
-                {potansiyelMusteriler.map((lead: LeadListItem) => (
-                  <tr
-                    key={lead.id}
-                    className="border-t border-[#f0e5d8] align-top"
-                  >
-                    <td className="px-6 py-4 text-sm text-[#6f675f]">
-                      {new Date(lead.createdAt).toLocaleDateString("tr-TR")}
-                    </td>
+                {potansiyelMusteriler.map((lead: LeadListItem) => {
+                  return (
+                    <tr
+                      key={lead.id}
+                      className="border-t border-[#f0e5d8] align-top"
+                    >
+                      <td className="px-6 py-4 text-sm text-[#6f675f]">
+                        {new Date(lead.createdAt).toLocaleDateString("tr-TR")}
+                      </td>
 
-                    <td className="px-6 py-4 text-sm font-medium text-[#1a1a1a]">
-                      {lead.name}
-                    </td>
+                      <td className="px-6 py-4 text-sm font-medium text-[#1a1a1a]">
+                        {lead.name}
+                      </td>
 
-                    <td className="px-6 py-4 text-sm text-[#1a1a1a]">
-                      {lead.phone}
-                    </td>
+                      <td className="px-6 py-4 text-sm text-[#1a1a1a]">
+                        {lead.phone}
+                      </td>
 
-                    <td className="px-6 py-4 text-sm text-[#6f675f]">
-                      {lead.email || "-"}
-                    </td>
+                      <td className="px-6 py-4 text-sm text-[#6f675f]">
+                        {lead.email || "-"}
+                      </td>
 
-                    <td className="px-6 py-4 text-sm text-[#6f675f]">
-                      {lead.city}
-                    </td>
+                      <td className="px-6 py-4 text-sm text-[#6f675f]">
+                        {lead.city}
+                      </td>
 
-                    <td className="px-6 py-4 text-sm text-[#6f675f]">
-                      {lead.service}
-                    </td>
+                      <td className="px-6 py-4 text-sm text-[#6f675f]">
+                        {lead.service}
+                      </td>
 
-                    <td className="max-w-[320px] px-6 py-4 text-sm leading-6 text-[#6f675f]">
-                      {lead.message || "-"}
-                    </td>
-                  </tr>
-                ))}
+                      <td className="max-w-[320px] px-6 py-4 text-sm leading-6 text-[#6f675f]">
+                        {lead.message || "-"}
+                      </td>
+                    </tr>
+                  )
+                })}
               </tbody>
             </table>
           </div>
