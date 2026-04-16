@@ -8,8 +8,16 @@ export const metadata: Metadata = {
     "Botoks, dolgu, PRP, yüz germe ve diğer uygulamalar hakkında bilgilendirici blog içerikleri.",
 }
 
+type BlogListItem = {
+  id: number
+  title: string
+  slug: string
+  excerpt: string
+  createdAt: Date
+}
+
 export default async function BlogPage() {
-  const blogs = await prisma.blog.findMany({
+  const bloglar: BlogListItem[] = await prisma.blog.findMany({
     where: {
       isPublished: true,
     },
@@ -46,7 +54,7 @@ export default async function BlogPage() {
 
       <section className="section-space">
         <div className="container-main">
-          {blogs.length === 0 ? (
+          {bloglar.length === 0 ? (
             <div className="rounded-[32px] border border-[#eadfce] bg-white p-10 text-center shadow-sm">
               <h2 className="text-2xl font-semibold text-[#1a1a1a]">
                 Henüz yayınlanmış blog yazısı bulunmuyor
@@ -57,7 +65,7 @@ export default async function BlogPage() {
             </div>
           ) : (
             <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-              {blogs.map((blog) => (
+              {bloglar.map((blog: BlogListItem) => (
                 <article
                   key={blog.id}
                   className="rounded-[28px] border border-[#eee4d8] bg-white p-7 shadow-sm"
