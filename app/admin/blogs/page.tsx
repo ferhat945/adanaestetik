@@ -2,16 +2,30 @@ import Link from "next/link"
 import { prisma } from "@/lib/prisma"
 import { AdminBlogActions } from "@/components/admin-blog-actions"
 
+type AdminBlogListItem = {
+  id: number
+  title: string
+  slug: string
+  isPublished: boolean
+  createdAt: Date
+}
+
 export default async function AdminBlogsPage() {
-  const blogs = await prisma.blog.findMany({
+  const blogs: AdminBlogListItem[] = await prisma.blog.findMany({
     orderBy: {
       createdAt: "desc",
+    },
+    select: {
+      id: true,
+      title: true,
+      slug: true,
+      isPublished: true,
+      createdAt: true,
     },
   })
 
   return (
     <div className="space-y-10">
-      {/* HEADER */}
       <div className="rounded-[32px] border border-[#eadfce] bg-white p-10 shadow-sm">
         <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
           <div>
@@ -30,12 +44,11 @@ export default async function AdminBlogsPage() {
             href="/admin/blogs/new"
             className="inline-flex items-center justify-center rounded-full bg-[#b69369] px-6 py-3 text-sm font-medium text-white shadow-md transition hover:scale-105 hover:opacity-90"
           >
-            + Yeni Blog
+            + Yeni Blog Ekle
           </Link>
         </div>
       </div>
 
-      {/* BLOG LIST */}
       {blogs.length === 0 ? (
         <div className="rounded-[28px] border border-[#eadfce] bg-white p-12 text-center shadow-sm">
           <h2 className="text-xl font-semibold text-[#1a1a1a]">
@@ -47,13 +60,12 @@ export default async function AdminBlogsPage() {
         </div>
       ) : (
         <div className="grid gap-6">
-          {blogs.map((blog) => (
+          {blogs.map((blog: AdminBlogListItem) => (
             <div
               key={blog.id}
               className="group rounded-[28px] border border-[#eadfce] bg-white p-6 shadow-sm transition hover:shadow-lg"
             >
               <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-                {/* SOL */}
                 <div>
                   <p className="text-xs uppercase tracking-[0.25em] text-[#b69369]">
                     {new Date(blog.createdAt).toLocaleDateString("tr-TR")}
@@ -80,7 +92,6 @@ export default async function AdminBlogsPage() {
                   </div>
                 </div>
 
-                {/* SAĞ BUTONLAR */}
                 <div className="flex items-center gap-3">
                   <AdminBlogActions blogId={blog.id} />
                 </div>
